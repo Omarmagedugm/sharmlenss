@@ -1,0 +1,6 @@
+{
+  "name": "SharmLens - Tourist Photography Management System",
+  "description": "Professional tourist boat photography center management, customer galleries, commission tracking, and sales system in Sharm El Sheikh.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

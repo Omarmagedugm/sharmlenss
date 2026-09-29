@@ -1,0 +1,307 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "System user account with role-based permissions",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 128 },
+        "displayName": { "type": "string", "maxLength": 128 },
+        "role": { "type": "string", "enum": ["owner", "admin", "accountant", "photographer"] },
+        "photographerId": { "type": "string", "maxLength": 128 },
+        "phone": { "type": "string", "maxLength": 50 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["userId", "email", "role"]
+    },
+    "Photographer": {
+      "title": "Photographer",
+      "description": "Photographer details, commission rate, and boat assignment",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string", "maxLength": 128 },
+        "profilePhoto": { "type": "string", "maxLength": 500 },
+        "phone": { "type": "string", "maxLength": 50 },
+        "email": { "type": "string", "maxLength": 128 },
+        "whatsapp": { "type": "string", "maxLength": 50 },
+        "idNumber": { "type": "string", "maxLength": 50 },
+        "commissionPercentage": { "type": "number" },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "dateJoined": { "type": "string" },
+        "assignedBoatId": { "type": "string", "maxLength": 128 },
+        "notes": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["fullName", "commissionPercentage", "status"]
+    },
+    "Boat": {
+      "title": "Boat",
+      "description": "Tourist boat profile operating in Sharm El Sheikh",
+      "type": "object",
+      "properties": {
+        "boatName": { "type": "string", "maxLength": 128 },
+        "boatNumber": { "type": "string", "maxLength": 50 },
+        "company": { "type": "string", "maxLength": 128 },
+        "contactPerson": { "type": "string", "maxLength": 128 },
+        "phone": { "type": "string", "maxLength": 50 },
+        "status": { "type": "string", "enum": ["active", "maintenance", "inactive"] },
+        "notes": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["boatName", "status"]
+    },
+    "Trip": {
+      "title": "Trip",
+      "description": "Daily tourist boat trip with assigned photographer",
+      "type": "object",
+      "properties": {
+        "tripId": { "type": "string", "maxLength": 128 },
+        "date": { "type": "string", "maxLength": 20 },
+        "boatId": { "type": "string", "maxLength": 128 },
+        "boatName": { "type": "string", "maxLength": 128 },
+        "photographerIds": { "type": "array" },
+        "departureTime": { "type": "string", "maxLength": 20 },
+        "returnTime": { "type": "string", "maxLength": 20 },
+        "expectedCustomers": { "type": "number" },
+        "actualCustomers": { "type": "number" },
+        "status": { "type": "string", "enum": ["scheduled", "active", "completed", "cancelled"] },
+        "notes": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["tripId", "date", "boatId", "status"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "Tourist customer photographed during a boat trip",
+      "type": "object",
+      "properties": {
+        "customerId": { "type": "string", "maxLength": 128 },
+        "fullName": { "type": "string", "maxLength": 128 },
+        "roomNumber": { "type": "string", "maxLength": 50 },
+        "hotel": { "type": "string", "maxLength": 128 },
+        "country": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 50 },
+        "peopleCount": { "type": "number" },
+        "tripId": { "type": "string", "maxLength": 128 },
+        "photographerId": { "type": "string", "maxLength": 128 },
+        "galleryCode": { "type": "string", "maxLength": 128 },
+        "notes": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["customerId", "fullName", "tripId", "photographerId"]
+    },
+    "Photo": {
+      "title": "Photo",
+      "description": "Photo taken for a customer on a trip",
+      "type": "object",
+      "properties": {
+        "photoId": { "type": "string", "maxLength": 128 },
+        "tripId": { "type": "string", "maxLength": 128 },
+        "customerId": { "type": "string", "maxLength": 128 },
+        "photographerId": { "type": "string", "maxLength": 128 },
+        "url": { "type": "string", "maxLength": 1000 },
+        "previewUrl": { "type": "string", "maxLength": 1000 },
+        "status": { "type": "string", "enum": ["preview", "selected", "sold", "not_sold", "deleted"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["photoId", "tripId", "customerId", "photographerId", "url", "status"]
+    },
+    "Package": {
+      "title": "Package",
+      "description": "Photography sale package pricing tier",
+      "type": "object",
+      "properties": {
+        "packageId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 128 },
+        "description": { "type": "string", "maxLength": 500 },
+        "photoCount": { "type": "number" },
+        "price": { "type": "number" },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["packageId", "name", "price", "active"]
+    },
+    "Sale": {
+      "title": "Sale",
+      "description": "Photo purchase transaction with permanent commission record",
+      "type": "object",
+      "properties": {
+        "saleId": { "type": "string", "maxLength": 128 },
+        "customerId": { "type": "string", "maxLength": 128 },
+        "photographerId": { "type": "string", "maxLength": 128 },
+        "tripId": { "type": "string", "maxLength": 128 },
+        "date": { "type": "string", "maxLength": 20 },
+        "selectedPhotoIds": { "type": "array" },
+        "packageId": { "type": "string", "maxLength": 128 },
+        "packageName": { "type": "string", "maxLength": 128 },
+        "quantity": { "type": "number" },
+        "grossAmount": { "type": "number" },
+        "discount": { "type": "number" },
+        "netAmount": { "type": "number" },
+        "commissionPercentage": { "type": "number" },
+        "commissionAmount": { "type": "number" },
+        "centerPercentage": { "type": "number" },
+        "centerRevenue": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["cash", "card", "online", "bank_transfer", "other"] },
+        "paymentStatus": { "type": "string", "enum": ["paid", "partially_paid", "unpaid", "refunded"] },
+        "notes": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["saleId", "customerId", "photographerId", "grossAmount", "netAmount", "commissionPercentage", "commissionAmount", "centerRevenue", "paymentStatus"]
+    },
+    "Payment": {
+      "title": "Payment",
+      "description": "Settlement payment payout recorded for a photographer",
+      "type": "object",
+      "properties": {
+        "paymentId": { "type": "string", "maxLength": 128 },
+        "photographerId": { "type": "string", "maxLength": 128 },
+        "amount": { "type": "number" },
+        "date": { "type": "string", "maxLength": 20 },
+        "paymentMethod": { "type": "string", "enum": ["cash", "card", "online", "bank_transfer"] },
+        "referenceNumber": { "type": "string", "maxLength": 100 },
+        "notes": { "type": "string", "maxLength": 1000 },
+        "recordedBy": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["paymentId", "photographerId", "amount", "date", "paymentMethod"]
+    },
+    "DailyClosing": {
+      "title": "DailyClosing",
+      "description": "End-of-day register closure and financial summary",
+      "type": "object",
+      "properties": {
+        "closingId": { "type": "string", "maxLength": 128 },
+        "date": { "type": "string", "maxLength": 20 },
+        "closedBy": { "type": "string", "maxLength": 128 },
+        "totalTrips": { "type": "number" },
+        "totalPhotographers": { "type": "number" },
+        "totalCustomers": { "type": "number" },
+        "totalBuyers": { "type": "number" },
+        "totalNonBuyers": { "type": "number" },
+        "totalSales": { "type": "number" },
+        "cashSales": { "type": "number" },
+        "cardSales": { "type": "number" },
+        "onlineSales": { "type": "number" },
+        "totalCommissions": { "type": "number" },
+        "centerRevenue": { "type": "number" },
+        "notes": { "type": "string", "maxLength": 1000 },
+        "status": { "type": "string", "enum": ["closed", "reopened"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["closingId", "date", "totalSales", "totalCommissions", "centerRevenue", "status"]
+    },
+    "Setting": {
+      "title": "Setting",
+      "description": "Global photography center configuration",
+      "type": "object",
+      "properties": {
+        "centerName": { "type": "string", "maxLength": 128 },
+        "logoUrl": { "type": "string", "maxLength": 500 },
+        "currency": { "type": "string", "maxLength": 10 },
+        "defaultPhotographerCommission": { "type": "number" },
+        "defaultCenterPercentage": { "type": "number" },
+        "taxPercentage": { "type": "number" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["centerName", "currency"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "System event notification for staff",
+      "type": "object",
+      "properties": {
+        "notificationId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 200 },
+        "message": { "type": "string", "maxLength": 500 },
+        "type": { "type": "string" },
+        "targetUserId": { "type": "string", "maxLength": 128 },
+        "targetRole": { "type": "string", "maxLength": 50 },
+        "isRead": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["title", "message", "isRead"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Auditable log of sensitive financial or operational actions",
+      "type": "object",
+      "properties": {
+        "logId": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "userEmail": { "type": "string", "maxLength": 128 },
+        "action": { "type": "string", "maxLength": 100 },
+        "entityType": { "type": "string", "maxLength": 50 },
+        "entityId": { "type": "string", "maxLength": 128 },
+        "details": { "type": "string", "maxLength": 1000 },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["logId", "userId", "action", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profile with role permission"
+    },
+    "/photographers/{photographerId}": {
+      "schema": { "$ref": "#/entities/Photographer" },
+      "description": "Photographer directory and commission rates"
+    },
+    "/boats/{boatId}": {
+      "schema": { "$ref": "#/entities/Boat" },
+      "description": "Tourist boats list"
+    },
+    "/trips/{tripId}": {
+      "schema": { "$ref": "#/entities/Trip" },
+      "description": "Daily boat trips"
+    },
+    "/customers/{customerId}": {
+      "schema": { "$ref": "#/entities/Customer" },
+      "description": "Tourists photographed on trips"
+    },
+    "/photos/{photoId}": {
+      "schema": { "$ref": "#/entities/Photo" },
+      "description": "Photos linked to trips and customers"
+    },
+    "/packages/{packageId}": {
+      "schema": { "$ref": "#/entities/Package" },
+      "description": "Sales packages"
+    },
+    "/sales/{saleId}": {
+      "schema": { "$ref": "#/entities/Sale" },
+      "description": "Completed photo sales and commissions"
+    },
+    "/payments/{paymentId}": {
+      "schema": { "$ref": "#/entities/Payment" },
+      "description": "Commission payments to photographers"
+    },
+    "/dailyClosings/{closingId}": {
+      "schema": { "$ref": "#/entities/DailyClosing" },
+      "description": "End-of-day financial reconciliation"
+    },
+    "/settings/{settingId}": {
+      "schema": { "$ref": "#/entities/Setting" },
+      "description": "System settings"
+    },
+    "/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/Notification" },
+      "description": "In-app notifications"
+    },
+    "/auditLogs/{logId}": {
+      "schema": { "$ref": "#/entities/AuditLog" },
+      "description": "Audit trail for sensitive transactions"
+    }
+  }
+}
